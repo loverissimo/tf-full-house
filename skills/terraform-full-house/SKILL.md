@@ -1,51 +1,36 @@
 ---
 name: terraform-full-house
-description: Generate full Terraform Azure infrastructure projects using Deloitte modules
+description: Generate full Terraform Azure projects using Deloitte Terraform standards and modules
 ---
 
-# Deloitte Terraform Full House
+# Terraform Full House
 
-This skill generates Terraform infrastructure projects using Deloitte Azure modules.
+This skill generates a complete Terraform project for infrastructure.
 
-## Capabilities
+Capabilities:
 
-- Generate Terraform infrastructure
-- Create missing Terraform files
-- Use modules from the Deloitte Azure DevOps repo
-- Build complete IaC projects
+- Creates Terraform project structure
+- Adds Terraform modules
+- Creates required files:
+  - main.tf
+  - variables.tf
+  - terraform.tfvars
+  - provider.tf
+  - backend.tf
+  - data.tf
+  - locals.tf
+- Organizes modules under resources/
 
-## Workflow
+Modules are sourced from the Deloitte Terraform repository.
 
-1. Parse requested infrastructure resources
-2. Map resources to modules
-3. Create Terraform project structure
-4. Import modules
-5. Generate module calls
-6. Add variables and tfvars
+When invoked, the skill should:
 
-## Project structure
-.
-├── main.tf
-├── provider.tf
-├── backend.tf
-├── variables.tf
-├── terraform.tfvars
-└── resources/
-
-## Example
-
-User prompt:
-Create an Azure resource group and virtual network
-
-Output:
-resources/
-resource_group/
-vnet/
-
-main.tf
-variables.tf
-terraform.tfvars
-provider.tf
-backend.tf
-
-The agent must ensure all files exist.
+1. Parse requested infrastructure
+2. Map requested resources to modules
+3. Create Terraform files if missing
+4. Insert module blocks into main.tf
+5. Place:
+   - data blocks in data.tf
+   - locals blocks in locals.tf
+6. Add missing variables to variables.tf
+7. Add values to terraform.tfvars
