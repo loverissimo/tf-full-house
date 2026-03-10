@@ -66,7 +66,7 @@ module "resource_group" {
 
 ## provider.tf
 Ensure the AzureRM provider exists.
-terraform {} blocks must only exist in provider.tf
+terraform blocks may exist only in provider.tf and backend.tf
 
 Example:
 
