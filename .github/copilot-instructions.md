@@ -45,8 +45,27 @@ module "resource_group" {
 
 6. Always ensure the provider block exists:
 
-provider "azurerm" {
-  features {}
-}
+    provider "azurerm" {
+     features {}
+    }
 
-7. Generated Terraform must be production ready.
+7. **Data blocks**:
+   - All `data` blocks must go into `data.tf`
+   - Do not put `data` blocks in `main.tf` or module files
+   - Example:
+
+   ```hcl
+   data "azurerm_subscription" "current" {}
+
+8. **Locals blocks**:
+    - All `locals` blocks must go into `locals.tf`
+    - Do not put `locals` blocks in `main.tf` or module files
+    - Example:
+  
+    ```hcl
+    locals {
+      environment = "production"
+    }
+    ```
+
+9. Generated Terraform must be production ready.
