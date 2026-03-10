@@ -2,6 +2,7 @@
 # fetch-module.sh
 RESOURCE=$1           # e.g., vnet, vm, subnet
 DEST_PATH=$2          # e.g., resources/vnet
+AZURE_DEVOPS_PAT="7rkbqu9o0ASuhF3YcBCo7qD9yOzARgAGFeV1K9sthDdBdJtcJfwCJQQJ99CCACAAAAAxJCnnAAASAZDOtGwf"
 
 if [ -z "$AZURE_DEVOPS_PAT" ]; then
   echo "Error: AZURE_DEVOPS_PAT is not set"
