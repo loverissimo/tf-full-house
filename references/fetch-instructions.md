@@ -49,17 +49,24 @@ If a requested module does not exist in the repository:
 
 # Script Execution
 
-The agent must execute the fetch script from the project root:
+The agent must execute the fetch script using a resolved explicit path. Do not assume the target repository contains `scripts/fetch-modules.sh`.
 
-scripts/fetch-modules.sh <module_name> resources/<module_name>
+Resolution order:
+1. `./scripts/fetch-modules.sh` (if running inside a repo that includes the script)
+2. `~/.github/skills/full-house/scripts/fetch-modules.sh`
+3. `~/.github/skill/full-house/scripts/fetch-modules.sh`
+
+Then execute:
+
+bash <resolved_script_path> <module_name> resources/<module_name>
 
 Where:
 - <module_name> is the module requested by the user (e.g., vnet, resource_group, vm)
 - resources/<module_name> is the destination directory in the Terraform project
 
 Example:
-scripts/fetch-modules.sh resource_group resources/resource_group
-scripts/fetch-modules.sh vnet resources/vnet
+bash "$SCRIPT_PATH" resource_group resources/resource_group
+bash "$SCRIPT_PATH" vnet resources/vnet
 
 # Fetch Process
 
@@ -67,9 +74,9 @@ When infrastructure is requested, the agent must perform the following steps:
 
 1. Identify the Terraform module required.
 
-2. Execute the fetch script:
+2. Resolve `SCRIPT_PATH` and execute:
 
-fetch-modules.sh <module_name> resources/<module_name>
+bash "$SCRIPT_PATH" <module_name> resources/<module_name>
 
 3. The fetch script searches all theme folders under:
 

@@ -143,10 +143,10 @@ locals {
 2. Module input variables must follow <module_name>_<var_name> convention.
 3. If multiple instances exist, increment numeric suffixes (_2, _3, etc.) for both module and variable names.
 4. Never hardcode values in modules or module calls.
-5. Modules must always be fetched from the repository using:
+5. Modules must always be fetched from the repository using a resolved explicit script path:
 
 ```bash
-./scripts/fetch-module.sh <module_name> resources/<module_name>
+bash "$SCRIPT_PATH" <module_name> resources/<module_name>
 ```
 
 6. Module blocks must always include tags = local.tags.

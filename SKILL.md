@@ -33,7 +33,12 @@ Capabilities:
 
 1. Parse requested infrastructure from user prompt.
 2. Map requested resources to Deloitte Terraform modules.
-3. Run `scripts/fetch-modules.sh <module> resources/<module>` to fetch the module code.
+3. Resolve and run the fetch script using an explicit path (so it works from any target repository):
+   - Prefer repo-local: `./scripts/fetch-modules.sh`
+   - Fallback to personal-skill install path:
+     - `~/.github/skills/full-house/scripts/fetch-modules.sh`
+     - `~/.github/skill/full-house/scripts/fetch-modules.sh`
+   - Execute with `bash "<resolved_script_path>" <module> resources/<module>`
 4. Insert module blocks into `main.tf` using the canonical project template defined in `module-generation.md`.
    - For each module, always use `tags = local.tags`.
 5. Place data blocks in `data.tf` if needed.
@@ -48,6 +53,7 @@ Capabilities:
 
 - Always use modules from the Deloitte repository.
 - Modules must always be fetched using `fetch-modules.sh`.
+- Do not assume the current repository contains the script; resolve the script path first and execute it by explicit path.
 - **Never define default values in variables.tf.** All variables must be instantiated in terraform.tfvars.
 - **Never hardcode module input values** inside main.tf.
 - If more than one module of the same type is requested, increment numeric suffixes (`resource_group_2`, `vnet_2`, etc.) for both module names and variable names.

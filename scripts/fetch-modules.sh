@@ -7,7 +7,7 @@ REPO="terraform-repository"
 BRANCH="master"
 
 if [ -z "$MODULE_NAME" ] || [ -z "$DEST_DIR" ]; then
-  echo "Usage: fetch-module.sh <module_name> <dest_dir>"
+  echo "Usage: fetch-modules.sh <module_name> <dest_dir>"
   exit 1
 fi
 
