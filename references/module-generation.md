@@ -40,8 +40,17 @@ If the project does not already contain Terraform files, create the following st
 # File Responsibilities & Examples
 
 ## main.tf
-- Contains: module blocks and resource blocks.
-- Do not place: variables, locals, or data sources.
+Contains: 
+- module blocks
+
+Never place the following blocks in main.tf:
+- terraform
+- provider
+- variable
+- locals
+- data
+
+- Always include tags = local.tags for consistency.
 
 Example:
 
@@ -57,6 +66,7 @@ module "resource_group" {
 
 ## provider.tf
 Ensure the AzureRM provider exists.
+terraform {} blocks must only exist in provider.tf
 
 Example:
 
@@ -147,10 +157,13 @@ Example:
 
 ```hcl
 locals {
-  project = "<value from prompt or default 'demo-project'>"
-  tags    = {
-    environment = "dev"
-    owner       = "deloitte"
+  project = "demo-project"
+  environment = "dev"
+
+  tags = {
+    Project     = local.project
+    Environment = local.environment
+    ManagedBy   = "Deloitte"
   }
 }
 ```
@@ -178,28 +191,3 @@ resources/
        variables.tf
        outputs.tf
        status.md
-
-# Module Usage in main.tf
-- Each module must be referenced in main.tf.
-- Always include tags = local.tags for consistency.
-
-Example:
-
-```hcl
-module "resource_group" {
-  source = "./resources/resource_group"
-
-  name     = var.resource_group_name
-  location = local.location
-  tags     = local.tags
-}
-
-module "vnet" {
-  source = "./resources/vnet"
-
-  name                = var.vnet_name
-  location            = local.location
-  resource_group_name = var.resource_group_name
-  tags                = local.tags
-}
-```

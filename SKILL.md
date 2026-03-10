@@ -43,3 +43,10 @@ Behavior:
 7. Add missing variables to variables.tf
 8. Add default values to terraform.tfvars
 9. Ensure backend.tf exists with correct backend configuration
+
+Important Rules:
+
+- Never generate Terraform resources directly.
+- Always use modules from the Deloitte repository.
+- Never create modules manually.
+- Modules must always be fetched using fetch-module.sh.
