@@ -69,79 +69,12 @@ The generated projects follow this standardized layout:
 | `locals.tf`        | local values                 |
 | `resources/`       | Terraform modules            |
 
----
-
-# Example Generated Code
-
-### main.tf
-
-```hcl
-module "resource_group" {
-  source = "./resources/resource_group"
-
-  name     = var.resource_group_name
-  location = local.location
-}
-
-module "vnet" {
-  source = "./resources/vnet"
-
-  name                = var.vnet_name
-  location            = local.location
-  resource_group_name = var.resource_group_name
-}
-```
-
----
-
-### variables.tf
-
-```hcl
-variable "location" {
-  type = string
-}
-
-variable "resource_group_name" {
-  type = string
-}
-
-variable "vnet_name" {
-  type = string
-}
-```
-
----
-
-### locals.tf
-
-```hcl
-locals {
-  location = "westeurope"
-}
-```
-
----
-
-### data.tf
-
-```hcl
-data "azurerm_subscription" "current" {}
-```
-
----
-
 # Terraform Modules Source
 
 Modules are sourced from the Deloitte Azure DevOps repository:
 
 ```
-https://dev.azure.com/carlosbteixeira/_git/Terraform repository for Azure
-```
-
-Modules location:
-
-```
-/child modules/tested and working
+https://dev.azure.com/carlosbteixeira/_git/Terraform repository for Azure//child modules/tested and working
 ```
 
 Each requested resource will be copied into:
