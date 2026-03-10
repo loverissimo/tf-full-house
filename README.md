@@ -71,10 +71,10 @@ The generated projects follow this standardized layout:
 
 # Terraform Modules Source
 
-Modules are sourced from the Deloitte Azure DevOps repository:
+Modules are sourced from the Deloitte Github repository:
 
 ```
-https://dev.azure.com/carlosbteixeira/_git/Terraform repository for Azure//child modules/tested and working
+https://github.com/loverissimo/tf-full-house
 ```
 
 Each requested resource will be copied into:
@@ -99,7 +99,7 @@ Install the following extensions:
 ## 2 Clone the Agent Repository
 
 ```
-git clone https://github.com/<your-org>/deloitte-terraform-full-house
+git clone https://github.com/loverissimo/deloitte-terraform-full-house
 ```
 
 Open the repository in **VS Code**.
@@ -117,8 +117,8 @@ Settings → GitHub Copilot → Use Instruction Files
 This allows Copilot to read:
 
 ```
-.github/copilot-instructions.md
-.github/prompts/create-terraform.prompt.md
+references/fetch-instructions.md
+references/module-generation.md
 ```
 
 ---
@@ -150,13 +150,13 @@ The agent will generate the Terraform files automatically.
 The agent can also be triggered using the prompt file:
 
 ```
-/create-terraform
+/full-house
 ```
 
 Example:
 
 ```
-/create-terraform
+/full-house
 
 Create an Azure resource group and vnet
 ```

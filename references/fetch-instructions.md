@@ -12,19 +12,19 @@ This document defines the **mandatory process** the agent must follow to obtain 
 All Terraform modules are stored in the Deloitte Azure DevOps repository:
 
 Terraform Repository for Azure  
-https://dev.azure.com/carlosbteixeira/_git/Terraform%20repository%20for%20Azure?path=/child%20modules/tested%20and%20working
+https://github.com/loverissimo/terraform-repository/tree/master/azure
 
 Modules are organized using the following structure:
 
-/child modules/tested and working/<theme>/<module_name>/
+/azure/<theme>/<module_name>/
 
 Example:
 
-/child modules/tested and working/networking/vnet/
-/child modules/tested and working/compute/vm/
-/child modules/tested and working/management/resource_group/
+/azure/networking/vnet/
+/azure/compute/vm/
+/azure/management/resource_group/
 
-Each module folder typically contains:
+Each module folder must contain:
 
 main.tf
 variables.tf
@@ -47,21 +47,19 @@ If a requested module does not exist in the repository:
 
 ---
 
-# Fetch Script
+# Script Execution
 
-Modules must be retrieved using the following command:
+The agent must execute the fetch script from the project root:
 
-```bash
-fetch-module.sh <module_name> resources/<module_name>
-```
+scripts/fetch-modules.sh <module_name> resources/<module_name>
 
 Where:
 - <module_name> is the module requested by the user (e.g., vnet, resource_group, vm)
 - resources/<module_name> is the destination directory in the Terraform project
 
 Example:
-fetch-module.sh resource_group resources/resource_group
-fetch-module.sh vnet resources/vnet
+scripts/fetch-modules.sh resource_group resources/resource_group
+scripts/fetch-modules.sh vnet resources/vnet
 
 # Fetch Process
 
@@ -71,13 +69,17 @@ When infrastructure is requested, the agent must perform the following steps:
 
 2. Execute the fetch script:
 
-fetch-module.sh <module_name> resources/<module_name>
+fetch-modules.sh <module_name> resources/<module_name>
 
-3. The script searches all folders under:
+3. The fetch script searches all theme folders under:
 
-/child modules/tested and working/
+/azure/
 
-to locate a folder matching <module_name>.
+until it finds a folder matching <module_name>.
+
+If the module folder is not found in the repository,
+the script must stop and the agent must inform the user
+that the requested module does not exist.
 
 4. Once found, the script copies the module files:
 
@@ -100,7 +102,6 @@ Example project layout:
 ├── variables.tf
 ├── terraform.tfvars
 ├── provider.tf
-├── backend.tf
 ├── locals.tf
 └── resources/
      ├── resource_group/

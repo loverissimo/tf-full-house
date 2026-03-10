@@ -1,5 +1,5 @@
 ---
-name: deloitte-terraform-full-house
+name: full-house
 description: Generate full Terraform projects using Deloitte Terraform standards and modules
 ---
 
@@ -20,33 +20,52 @@ Capabilities:
 - Adds Terraform modules
 - Creates required files:
   - main.tf
-  - variables.tf
-  - terraform.tfvars
   - provider.tf
   - backend.tf
+  - variables.tf
+  - terraform.tfvars
   - locals.tf
 - Creates data.tf if data sources are needed
 - Organizes modules under resources/
 - Copies `status.md` from modules if it exists
 
-Behavior:
+# Behavior
 
-1. Parse requested infrastructure from user prompt
-2. Map requested resources to Deloitte Terraform modules
-3. Run `scripts/fetch-module.sh <module> resources/<module>` to get module code
-4. Insert module blocks into main.tf
-   - For each module, add `tags = local.tags`
-5. Place data blocks in data.tf
-6. Place locals block in locals.tf
-   - Include `project = <value from prompt or default>`
-   - Include `tags = <default tags>`
-7. Add missing variables to variables.tf
-8. Add default values to terraform.tfvars
-9. Ensure backend.tf exists with correct backend configuration
+1. Parse requested infrastructure from user prompt.
+2. Map requested resources to Deloitte Terraform modules.
+3. Run `scripts/fetch-modules.sh <module> resources/<module>` to fetch the module code.
+4. Insert module blocks into `main.tf` using the canonical project template defined in `module-generation.md`.
+   - For each module, always use `tags = local.tags`.
+5. Place data blocks in `data.tf` if needed.
+6. Place locals block in `locals.tf` with:
+   - `project = var.project`
+   - `tags = local.tags`
+7. Add **all required variables** to `variables.tf` without defaults.
+8. Populate **all variables in terraform.tfvars**, including numeric suffixes for multiple instances.
+9. Ensure modules follow `<module_name>_<var_name>` naming convention.
 
-Important Rules:
+# Important Rules
 
-- Never generate Terraform resources directly.
 - Always use modules from the Deloitte repository.
-- Never create modules manually.
-- Modules must always be fetched using fetch-module.sh.
+- Modules must always be fetched using `fetch-modules.sh`.
+- **Never define default values in variables.tf.** All variables must be instantiated in terraform.tfvars.
+- **Never hardcode module input values** inside main.tf.
+- If more than one module of the same type is requested, increment numeric suffixes (`resource_group_2`, `vnet_2`, etc.) for both module names and variable names.
+- Module blocks in main.tf must be grouped by resource type using comment headers:
+
+```
+###################
+# <Resource Type>
+###################
+```
+
+- Root project files must **never contain resource blocks**; all infrastructure must be built using modules only.
+
+Example:
+module "resource_group" {
+source = "./resources/resource_group"
+
+name = var.resource_group_name
+location = var.location
+tags = local.tags
+}
