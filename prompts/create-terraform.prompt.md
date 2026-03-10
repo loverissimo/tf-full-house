@@ -10,13 +10,14 @@ The agent must follow the structure and rules defined below.
 
 When a user asks for infrastructure (for example: *resource group*, *virtual network*, *storage account*), generate a **complete Terraform project structure** and use modules from the Deloitte Azure DevOps Terraform repository.
 
-Repository:
+# Module Fetch Instructions
 
-https://dev.azure.com/carlosbteixeira/_git/Terraform repository for Azure
-
-Modules location:
-
-/child modules/tested and working
+- When a user requests a resource (e.g., vnet, subnet, vm), run:
+  `fetch-module.sh <resource_name> resources/<resource_name>`
+- The script will search all folders in `/child modules/tested and working/` for a folder named `<resource_name>`.
+- It copies all module files and `status.md` if it exists.
+- Place the module in the project `resources/` folder.
+- Only create data.tf if data blocks are needed.
 
 ---
 

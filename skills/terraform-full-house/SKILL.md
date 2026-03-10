@@ -1,11 +1,11 @@
 ---
 name: terraform-full-house
-description: Generate full Terraform Azure projects using Deloitte Terraform standards and modules
+description: Generate full Terraform projects using Deloitte Terraform standards and modules
 ---
 
 # Terraform Full House
 
-This skill generates a complete Terraform project for infrastructure.
+This skill generates a complete Terraform project for Azure infrastructure.
 
 Capabilities:
 
@@ -17,20 +17,18 @@ Capabilities:
   - terraform.tfvars
   - provider.tf
   - backend.tf
-  - data.tf
   - locals.tf
+  - data.tf
 - Organizes modules under resources/
+- Copies `status.md` from modules if it exists
 
-Modules are sourced from the Deloitte Terraform repository.
+Behavior:
 
-When invoked, the skill should:
-
-1. Parse requested infrastructure
-2. Map requested resources to modules
-3. Create Terraform files if missing
+1. Parse requested infrastructure from user prompt
+2. Map requested resources to Deloitte Terraform modules
+3. Run `scripts/fetch-module.sh <module> resources/<module>` to get module code
 4. Insert module blocks into main.tf
-5. Place:
-   - data blocks in data.tf
-   - locals blocks in locals.tf
-6. Add missing variables to variables.tf
-7. Add values to terraform.tfvars
+5. Place data blocks in data.tf
+6. Place locals blocks in locals.tf
+7. Add missing variables to variables.tf
+8. Add default values to terraform.tfvars
