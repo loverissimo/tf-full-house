@@ -1,6 +1,6 @@
 # Create Terraform Project – Deloitte Terraform Full House
 
-This prompt instructs the **deloitte-terraform-full-house** Copilot agent to generate a **complete Terraform Azure infrastructure project** using Deloitte Terraform modules.
+This prompt instructs the **deloitte-terraform-full-house** Copilot agent to generate a **complete Terraform infrastructure project** using Deloitte Terraform modules.
 
 The agent must follow the structure and rules defined below.
 
@@ -192,12 +192,22 @@ When the user requests infrastructure resources:
 resources/<module_name>/
 ```
 
+4. Also copy status.md if it exists in the source module folder. Place it alongside main.tf, variables.tf, and outputs.tf.
+
 Example:
 
 ```
 resources/
    resource_group/
+       main.tf
+       variables.tf
+       outputs.tf
+       status.md
    vnet/
+       main.tf
+       variables.tf
+       outputs.tf
+       status.md
 ```
 
 ---
